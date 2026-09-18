@@ -55,13 +55,16 @@ def generate_nexus_file(dataset):
     dataset.logger.info('Running nexgen with: ' + nex_cmd)
     p = subprocess.run(nex_cmd, shell=True, stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE, cwd=dataset.path)
-    if p.stderr:
-        msg = 'Failed to process data with nexgen'
-        dataset.logger.error(msg)
-        dataset.logger.error(p.stderr)
+
+    if p.returncode != 0:
+        dataset.logger.error('Failed to process data with nexgen')
+        dataset.logger.error(p.stderr.decode(errors='replace'))
         dataset.status = 'CONVERSION_FAILED'
         return 0
-    else:
-        dataset.logger.info('Created Nexus file ' + dataset.nexgen_file)
-        dataset.status = 'CONVERTED'
-        return 1
+
+    if p.stderr:
+        dataset.logger.warning(p.stderr.decode(errors='replace'))
+
+    dataset.logger.info('Created Nexus file ' + dataset.nexgen_file)
+    dataset.status = 'CONVERTED'
+    return 1
