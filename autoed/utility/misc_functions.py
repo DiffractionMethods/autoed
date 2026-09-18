@@ -160,22 +160,26 @@ def is_file_fully_written(filename,
 
     start_time = time.time()
     previous_size = None
+    size = None
+    wait_time = time.time() - start_time
 
     while time.time() - start_time < timeout:
+
         try:
             size = os.path.getsize(filename)
+            wait_time = time.time() - start_time
 
             c1 = previous_size is not None
             c3 = size == previous_size
             if c1 and c3:
                 if not size == 0:
-                    wait_time = time.time() - start_time
                     return True, size, wait_time  # Size remains constant
 
             previous_size = size
+
         except FileNotFoundError:
             pass  # File might not exist yet, continue checking
 
         time.sleep(polling_interval)
 
-    return False, size, wait_time
+    return False, size, time.time() - start_time
