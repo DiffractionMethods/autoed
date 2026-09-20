@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='autoed',
-    version='0.3.4',
+    version='0.3.4.post1',
     license="BSD-3-Clause",
     entry_points={
         'console_scripts': [
