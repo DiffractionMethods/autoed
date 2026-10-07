@@ -36,6 +36,10 @@ the information necessary to populate the Nexus file that AutoED
 generates (e.g., ``basename.nxs``). An example of an JSON metadata file is 
 given below
 
+The current code works exscusily with the Singla detector. However, 
+it will be extended to work with different microscopes and detectors 
+including .cbf files.
+
 .. code-block:: console
 
    {
