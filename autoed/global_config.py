@@ -21,6 +21,8 @@ default_global_config['run_multiplex'] = True
 default_global_config['multiplex_pipeline'] = 'default'
 default_global_config['multiplex_indexing_percent_threshold'] = 75
 default_global_config['multiplex_run_on_every_nth'] = 5
+default_global_config['determine_beam'] = True
+default_global_config['plot_spots'] = True  
 
 
 run_pipelines = {'default': True,
