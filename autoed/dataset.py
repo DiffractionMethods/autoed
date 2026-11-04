@@ -272,10 +272,12 @@ class SinglaDataset:                    # pylint: disable=R0902
 
         if not self.processed:
             self.processed = True
+            if global_config.plot_spots:
+                # added to reflect change to global_config
+                plot_spots_from_dataset(self)
 
-            plot_spots_from_dataset(self)
-
-            if not self.beam_center:
+            if global_config.determine_beam and not self.beam_center:
+                
                 msg = f"Computing the beam center for {self.dataset_name}"
                 self.logger.info(msg)
 
