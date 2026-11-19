@@ -1,7 +1,7 @@
 import sys
 import os
 import argparse
-from autoed.dataset import SinglaDataset
+from autoed.dataset_singla import SinglaDataset
 from autoed.utility.filesystem import gather_master_files
 from autoed.global_config import global_config
 

@@ -15,7 +15,7 @@ def add_to_database():
     AutoED database.
     """
 
-    from autoed.dataset import SinglaDataset
+    from autoed.dataset_singla import SinglaDataset
     import time
     from autoed.constants import PROCESS_DONE_TRIGGER
     import sys

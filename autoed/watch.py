@@ -5,8 +5,7 @@ import re
 from watchdog.observers import Observer
 from watchdog.observers.polling import PollingObserver
 from watchdog.events import FileSystemEventHandler
-from autoed.dataset import SinglaDataset
-from autoed.process.process_static import gather_master_files
+from autoed.dataset_singla import SinglaDataset
 from autoed.global_config import global_config
 import logging
 import argparse
@@ -172,10 +171,11 @@ class DirectoryHandler(FileSystemEventHandler):
 
                         dir_name = os.path.dirname(event.src_path)
 
-                        master_files = gather_master_files(dir_name)
+                        discovered = SinglaDataset.find_datasets(
+                            dir_name, make_out_path=False)
 
-                        for master_file in master_files:
-                            basename = master_file[:-10]
+                        for discovered_dataset in discovered:
+                            basename = discovered_dataset.base
 
                             if (basename not in self.dataset_names):
                                 self.dataset_names.add(basename)

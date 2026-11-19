@@ -6,6 +6,7 @@ from autoed.dataset_abc import DatasetBase
 from autoed.global_config import global_config
 from autoed.beam_position.beam_center import BeamCenterCalculator
 from autoed.utility.misc_functions import is_file_fully_written
+from autoed.utility.filesystem import gather_master_files
 from autoed.metadata import Metadata
 
 
@@ -35,6 +36,17 @@ class SinglaDataset(DatasetBase):           # pylint: disable=R0902
         dataset_name = os.path.basename(master_file)
         dataset_name = dataset_name.replace('_master.h5', '')
         return cls(path, dataset_name, make_out_path=make_out_path)
+
+    @classmethod
+    def find_datasets(cls, folder, make_out_path=True):
+        """Recursively find Singla datasets under folder.
+
+        Discovery is a presence check: each '*_master.h5' file found is
+        one dataset. Returns ready-to-use dataset objects.
+        """
+        master_files = gather_master_files(folder)
+        return [cls.from_master_file(mf, make_out_path=make_out_path)
+               for mf in master_files]
 
     def search_and_update_data_files(self):
 

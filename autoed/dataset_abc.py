@@ -120,6 +120,16 @@ class DatasetBase(ABC):
         """Populate self.metadata. Return True on success, False
         otherwise."""
 
+    def to_nexus(self):
+        """Convert the dataset to Nexus before processing.
+
+        Default implementation for formats that need Nexus conversion
+        (e.g. Singla HDF5). Formats whose processing pipeline reads
+        geometry directly from the raw data (e.g. CBF) override this
+        with a no-op.
+        """
+        return generate_nexus_file(self)
+
     def process(self, global_config):
 
         if not self.processed:
@@ -146,7 +156,7 @@ class DatasetBase(ABC):
                 self.logger.error(msg)
                 return False
             else:
-                success = generate_nexus_file(self)
+                success = self.to_nexus()
                 if success:
                     os.makedirs(self.output_path, exist_ok=True)
                     run_processing_pipelines(self, global_config.local)

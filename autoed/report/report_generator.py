@@ -69,7 +69,7 @@ def generate_json_database(path_to_watched_dir, report_path):
 def gather_datasets(dir_path):
     """ Given a directory path return all the Singla datasets in that path """
     from autoed.utility.filesystem import gather_master_files
-    from autoed.dataset import SinglaDataset
+    from autoed.dataset_singla import SinglaDataset
 
     datasets = []
     master_files = gather_master_files(dir_path)

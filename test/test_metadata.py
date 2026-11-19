@@ -2,7 +2,7 @@ import pytest                             # noqa: F401
 from autoed.metadata import (
     get_angle_increment_old, get_angle_increment_new, Metadata
 )
-from autoed.dataset import SinglaDataset
+from autoed.dataset_singla import SinglaDataset
 import autoed
 import os
 
