@@ -6,10 +6,14 @@ from watchdog.observers import Observer
 from watchdog.observers.polling import PollingObserver
 from watchdog.events import FileSystemEventHandler
 from autoed.dataset_singla import SinglaDataset
+from autoed.dataset_cbf import CBFDataset
 from autoed.global_config import global_config
 import logging
 import argparse
 from autoed import __version__
+
+# Dataset classes the watcher tries, in order, when scanning a directory.
+DATASET_CLASSES = (SinglaDataset, CBFDataset)
 
 
 """
@@ -171,15 +175,18 @@ class DirectoryHandler(FileSystemEventHandler):
 
                         dir_name = os.path.dirname(event.src_path)
 
-                        discovered = SinglaDataset.find_datasets(
-                            dir_name, make_out_path=False)
+                        discovered = []
+                        for dataset_cls in DATASET_CLASSES:
+                            discovered += dataset_cls.find_datasets(
+                                dir_name, make_out_path=False)
 
                         for discovered_dataset in discovered:
                             basename = discovered_dataset.base
+                            dataset_cls = type(discovered_dataset)
 
                             if (basename not in self.dataset_names):
                                 self.dataset_names.add(basename)
-                                dataset = SinglaDataset.from_basename(basename)
+                                dataset = dataset_cls.from_basename(basename)
                                 msg = 'AutoED global log file at '
                                 msg += f"'{global_config.log_dir}'."
                                 dataset.logger.info(msg)
