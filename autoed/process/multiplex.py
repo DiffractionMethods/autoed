@@ -11,7 +11,7 @@ from datetime import datetime
 from autoed.constants import (multiplex_dir, multiplex_output_dir,
                               report_dir, report_data_dir,
                               database_json_file, multiplex_default_sample)
-from autoed.dataset import SinglaDataset
+from autoed.dataset_singla import SinglaDataset
 from autoed.global_config import global_config
 from autoed.utility.filesystem import clear_dir
 from autoed.process.slurm import run_slurm_job
